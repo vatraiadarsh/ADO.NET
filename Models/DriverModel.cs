@@ -19,3 +19,4 @@ namespace ConsoleApp.Models
         public Boolean Status { get; set; }
     }
 }
+

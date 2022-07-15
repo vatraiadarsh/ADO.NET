@@ -6,6 +6,7 @@ using System.Data;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using ConsoleApp.DbUtility;
 
 namespace ConsoleApp.Repositories
 {
@@ -16,39 +17,26 @@ namespace ConsoleApp.Repositories
     }
     public class UserRepository : IUserRepository
     {
-       private MySqlConnection connection = null;
-        MySqlCommand command = null;
 
+        private DBConnection db = new DBConnection();
 
-        private void connect()
-        {
-            connection = new MySqlConnection();
-            connection.ConnectionString = "Server=localhost;Database=ado;Uid=root;Pwd=''";
-            connection.Open();
-        }
-
-        private void InitCommand(String sql)
-        {
-            command = new MySqlCommand(sql);
-            command.CommandType = CommandType.Text;
-            command.Connection = connection;
-        }
+      
 
         public int Insert(User user)
         {
-            connect();
+            db.connect();
             String sql = "insert into users(username,email,password,status) values(@userName,@email,@password,@status)";
-            InitCommand(sql);
+            db.InitCommand(sql);
 
-            AddParamater("@username", user.userName, DbType.AnsiString);
-            AddParamater("@email", user.email, DbType.AnsiString);
-            AddParamater("@password", user.password, DbType.AnsiString);
-            AddParamater("@status", user.status, DbType.Boolean);
+            db.AddParamater("@username", user.userName, DbType.AnsiString);
+            db.AddParamater("@email", user.email, DbType.AnsiString);
+            db.AddParamater("@password", user.password, DbType.AnsiString);
+            db.AddParamater("@status", user.status, DbType.Boolean);
 
 
-            int result = command.ExecuteNonQuery();
+            int result = db.ExecuteNonQuery();
 
-            connection.Close();
+            db.Close();
             return result;
 
         }
@@ -56,34 +44,26 @@ namespace ConsoleApp.Repositories
         public int Update(User user)
         {
 
-            connect();
+            db.connect();
             string sql = "update users set username=@username, email=@email,password=@password,status=@status where id=@id";
 
-            InitCommand(sql);
+            db.InitCommand(sql);
 
-            AddParamater("@username", user.userName, DbType.AnsiString);
-            AddParamater("@email", user.email, DbType.AnsiString);
-            AddParamater("@password", user.password, DbType.AnsiString);
-            AddParamater("@status", user.status, DbType.Boolean);
-            AddParamater("@id", user.Id, DbType.Int32);
+            db.AddParamater("@username", user.userName, DbType.AnsiString);
+            db.AddParamater("@email", user.email, DbType.AnsiString);
+            db.AddParamater("@password", user.password, DbType.AnsiString);
+            db.AddParamater("@status", user.status, DbType.Boolean);
+            db.AddParamater("@id", user.Id, DbType.Int32);
 
 
-            int result = command.ExecuteNonQuery();
+            int result = db.ExecuteNonQuery();
 
-            connection.Close();
+            db.Close();
             return result;
 
         }
 
-        private void AddParamater(string paramName, object value, DbType type)
-        {
-            MySqlParameter param = new MySqlParameter();
-            param.DbType = type;
-            param.ParameterName = paramName;
-            param.Value = value;
-            cmd.Parameters.Add(cmd);
-
-        }
+        
 
 
 
