@@ -12,6 +12,7 @@ namespace ConsoleApp.Repositories
     public interface IUserRepository
     {
         int Insert(User user);
+        int Update(User user);
     }
     internal class UserRepository : IUserRepository
     {
@@ -19,66 +20,105 @@ namespace ConsoleApp.Repositories
         {
             MySqlConnection connection = null;
 
-           
-                connection = new MySqlConnection();
-                connection.ConnectionString = "Server=localhost;Database=ado;Uid=root;Pwd=''";
-                connection.Open();
-                Console.WriteLine("DB connected");
 
-                while (true)
-                {
-                    Console.WriteLine("Username");
-                    String username = Console.ReadLine();
-                    Console.WriteLine("Email");
-                    String email = Console.ReadLine();
-                    Console.WriteLine("Password");
-                    String password = Console.ReadLine();
-                    Console.WriteLine("Status");
-                    String status = Console.ReadLine();
+            connection = new MySqlConnection();
+            connection.ConnectionString = "Server=localhost;Database=ado;Uid=root;Pwd=''";
+            connection.Open();
+            String sql = "insert into users(username,email,password,status) values(@userName,@email,@password,@status)";
 
-                    string sql = "insert into users(username,email,password,status)" +
-                        "values(@username,@email,@password,@status)";
+            MySqlCommand command = new MySqlCommand(sql);
+            command.CommandType = CommandType.Text;
+            command.Connection = connection;
+            command.Parameters.Add(new MySqlParameter()
+            {
+                ParameterName = "@username",
+                Value = user.userName,
+                DbType = DbType.AnsiString,
+            });
+            command.Parameters.Add(new MySqlParameter()
+            {
+                ParameterName = "@email",
+                Value = user.email,
+                DbType = DbType.AnsiString,
+            });
+            command.Parameters.Add(new MySqlParameter()
+            {
+                ParameterName = "@password",
+                Value = user.password,
+                DbType = DbType.AnsiString,
+            });
+
+            command.Parameters.Add(new MySqlParameter()
+            {
+                ParameterName = "@status",
+                Value = user.status,
+                DbType = DbType.Boolean,
+            });
+
+            int result = command.ExecuteNonQuery();
+
+            connection.Clone();
+            return result;
+
+        }
+
+        public int Update(User user)
+        {
+            MySqlConnection connection = null;
+
+
+            connection = new MySqlConnection();
+            connection.ConnectionString = "Server=localhost;Database=ado;Uid=root;Pwd=''";
+            connection.Open();
+
+
+            string sql = "update users set username=@username, email=@email,password=@password,status=@status where id=@id";
 
 
 
-                    MySqlCommand command = new MySqlCommand(sql);
-                    command.CommandType = CommandType.Text;
-                    command.Connection = connection;
-                    command.Parameters.Add(new MySqlParameter()
-                    {
-                        ParameterName = "@username",
-                        Value = username,
-                        DbType = DbType.AnsiString,
-                    });
-                command.Parameters.Add(new MySqlParameter()
-                {
-                    ParameterName = "@email",
-                    Value = email,
-                    DbType = DbType.AnsiString,
-                });
-                command.Parameters.Add(new MySqlParameter()
-                    {
-                        ParameterName = "@password",
-                        Value = password,
-                        DbType = DbType.AnsiString,
-                    });
+            MySqlCommand command = new MySqlCommand(sql);
+            command.CommandType = CommandType.Text;
+            command.Connection = connection;
+            command.Parameters.Add(new MySqlParameter()
+            {
+                ParameterName = "@username",
+                Value = user.userName,
+                DbType = DbType.AnsiString,
+            });
+            command.Parameters.Add(new MySqlParameter()
+            {
+                ParameterName = "@email",
+                Value = user.email,
+                DbType = DbType.AnsiString,
+            });
+            command.Parameters.Add(new MySqlParameter()
+            {
+                ParameterName = "@password",
+                Value = user.password,
+                DbType = DbType.AnsiString,
+            });
 
-                    command.Parameters.Add(new MySqlParameter()
-                    {
-                        ParameterName = "@status",
-                        Value = status,
-                        DbType = DbType.Boolean,
-                    });
+            command.Parameters.Add(new MySqlParameter()
+            {
+                ParameterName = "@status",
+                Value = user.status,
+                DbType = DbType.Boolean,
+            });
+            command.Parameters.Add(new MySqlParameter()
+            {
+                ParameterName = "@id",
+                Value = user.Id,
+                DbType = DbType.Int32
+            });
 
-                    int result = command.ExecuteNonQuery();
-            
-                    connection.Clone();
-                    return result;
+            int result = command.ExecuteNonQuery();
 
-                }
-           
+            connection.Clone();
+            return result;
+
         }
     }
 }
-    
 
+
+       

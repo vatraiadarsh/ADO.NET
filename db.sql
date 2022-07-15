@@ -2,11 +2,14 @@
 create database ado;
 use ado;
 
+
 create table users(
+id int not null auto_increment,
 username varchar(225),
 email varchar(225),
 password varchar (225),
-status tinyint default 0
+status tinyint default 0,
+primary key (id)
 );
 
 

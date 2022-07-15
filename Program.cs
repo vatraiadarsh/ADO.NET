@@ -9,14 +9,19 @@ namespace ConsoleApp
         {
             User user = new User()
             {
-                userName = "jack",
-                password = "jack",
+                Id = 4,
+                userName = "Kyle",
+                email = "kyle@gmail.com",
+                password = "kyle",
                 status = true
 
             };
 
+          
+
             IUserRepository repo = new UserRepository();
-            int result = repo.Insert(user);
+            //int result = repo.Insert(user);
+            int result = repo.Update(user);
             Console.WriteLine(result);
         }
     }
