@@ -79,45 +79,35 @@ namespace ConsoleApp.Repositories
             MySqlCommand command = new MySqlCommand(sql);
             command.CommandType = CommandType.Text;
             command.Connection = connection;
-            command.Parameters.Add(new MySqlParameter()
-            {
-                ParameterName = "@username",
-                Value = user.userName,
-                DbType = DbType.AnsiString,
-            });
-            command.Parameters.Add(new MySqlParameter()
-            {
-                ParameterName = "@email",
-                Value = user.email,
-                DbType = DbType.AnsiString,
-            });
-            command.Parameters.Add(new MySqlParameter()
-            {
-                ParameterName = "@password",
-                Value = user.password,
-                DbType = DbType.AnsiString,
-            });
 
-            command.Parameters.Add(new MySqlParameter()
-            {
-                ParameterName = "@status",
-                Value = user.status,
-                DbType = DbType.Boolean,
-            });
-            command.Parameters.Add(new MySqlParameter()
-            {
-                ParameterName = "@id",
-                Value = user.Id,
-                DbType = DbType.Int32
-            });
+            AddParamater(command, "@username", user.userName, DbType.AnsiString);
+            AddParamater(command, "@email", user.email, DbType.AnsiString);
+            AddParamater(command, "@password", user.password, DbType.AnsiString);
+            AddParamater(command, "@status", user.status, DbType.Boolean);
+            AddParamater(command, "@id", user.Id, DbType.Int32);
+
 
             int result = command.ExecuteNonQuery();
 
-            connection.Clone();
+            connection.Close();
             return result;
 
         }
-    }
+
+        private void AddParamater(MySqlCommand cmd, string paramName, object value, DbType type)
+        {
+            MySqlParameter param = new MySqlParameter();
+            param.DbType = type;
+            param.ParameterName = paramName;
+            param.Value = value;
+            cmd.Parameters.Add(cmd);
+
+        }
+
+
+
+
+    }  
 }
 
 

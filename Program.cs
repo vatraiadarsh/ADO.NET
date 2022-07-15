@@ -1,7 +1,7 @@
 using ConsoleApp.Models;
 using ConsoleApp.Repositories;
 
-namespace ConsoleApp
+namespace ConsoleApp 
 {
     internal class Program
     {
@@ -9,7 +9,7 @@ namespace ConsoleApp
         {
             User user = new User()
             {
-                Id = 4,
+                Id = 6,
                 userName = "Kyle",
                 email = "kyle@gmail.com",
                 password = "kyle",
