@@ -42,6 +42,11 @@ namespace ConsoleApp.DbUtility
             return cmd.ExecuteNonQuery();
         }
 
+        public MySqlDataReader ExecuteReader()
+        {
+            return cmd.ExecuteReader();
+        }
+
         public void Close()
         {
             connection.Close();

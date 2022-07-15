@@ -10,17 +10,19 @@ using ConsoleApp.DbUtility;
 
 namespace ConsoleApp.Repositories
 {
-    public interface IUserRepository
+    public interface IUserRepository: IGenericRepository<User>
     {
-        int Insert(User user);
-        int Update(User user);
+
     }
     public class UserRepository : IUserRepository
     {
 
         private DBConnection db = new DBConnection();
 
-      
+        public List<User> GetAll()
+        {
+            throw new NotImplementedException();
+        }
 
         public int Insert(User user)
         {

@@ -11,5 +11,6 @@ namespace ConsoleApp.Repositories
         int Insert(TModel model);
         int Update(TModel model);
 
+        List<TModel> GetAll();
     }
 }

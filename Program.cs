@@ -24,7 +24,7 @@ namespace ConsoleApp
              int result = repo.Update(user);
              Console.WriteLine(result);
 
-            */
+           
 
 
             IDriverRepository driverRepository = new DriverRepository();
@@ -38,7 +38,14 @@ namespace ConsoleApp
 
             Console.WriteLine(result);
 
+             */
+            IDriverRepository drivers = new DriverRepository();
 
+            foreach(Driver d in drivers.GetAll())
+            {
+                Console.WriteLine(d.Name + " " + d.ContactNo);
+                Console.WriteLine(d.AddedData + " " + d.ModifiedDate);
+            }
 
         }
     }
